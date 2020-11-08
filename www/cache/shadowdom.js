@@ -1,3 +1,5 @@
+/* Shadow DOM : Fragment Object and <template> CloneNode  */
+
 (function (modules) {
 
     var parent, child, clone, collapse, expand;

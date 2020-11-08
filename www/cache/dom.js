@@ -1,10 +1,14 @@
+/* DOM Library */
 (function () {
+    
     var root = this;
+    
     var $ = function (obj) {
         if (obj instanceof $) return obj;
         if (!(this instanceof $)) return new $(obj);
         this._wrapped = obj;
     };
+
     if (typeof exports !== 'undefined') {
         if (typeof module !== 'undefined' && module.exports) {
             exports = module.exports = $;
@@ -13,20 +17,27 @@
     } else {
         root.$ = $;
     }
+
     $.VERSION = '1.0.0';
+    
     $.id = document.getElementById.bind(document);
+    
     $.qs = function (selector, scope) {
         return (scope || document).querySelector(selector);
     };
+
     $.qsa = function (selector, scope) {
         return (scope || document).querySelectorAll(selector);
     };
+
     $.closest = function (target, selector) {
         return target.closest(selector);
     }
+
     $.listen = function (target, type, callback, useCapture) {
         target.addEventListener(type, callback, !!useCapture);
     };
+
     $.delegate = function (target, selector, type, handler) {
         function dispatchEvent(event) {
             var targetElement = event.target;
@@ -39,6 +50,7 @@
         var useCapture = type === 'blur' || type === 'focus';
         $.listen(target, type, dispatchEvent, useCapture);
     };
+
     $.parent = function (element, tagName) {
         if (!element.parentNode) {
             return;
@@ -48,26 +60,38 @@
         }
         return $.parent(element.parentNode, tagName);
     };
-    $.create = function (target, element, attrs, text) {
-        const myElement = document.createElement(element);
-        const myTextNode = document.createTextNode(text);
-        for (var attr in attrs) {
-            myElement.setAttribute(attr, attrs[attr])
+
+    $.closest = function(selector, element){
+        return selector.closest(element)
+    };
+
+    $.create = function (target, element,options){
+        options = (options || {});
+        const parent = document.createElement(element);
+        if(options.text){
+            const child = document.createTextNode(options.text);
+            parent.appendChild(child);
         }
-        if (text) {
-            myElement.appendChild(myTextNode);
+        if(options.class){
+            parent.className = options.class;
         }
         return target.appendChild(myElement);
-    }
-    $.appendChild = function (target, element) {
+    };
+
+    $.append = function (target, element) {
         return target.appendChild(element);
-    }
+    };
+
+    // TODO : AJAX 
+
     $.prototype.wrapped = function () {
         return this._wrapped;
     };
+
     if (typeof define === 'function' && define.amd) {
         define('dom', [], function () {
             return $;
         });
     }
+
 }.call(this));
