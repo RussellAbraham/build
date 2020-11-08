@@ -1,3 +1,2 @@
 @echo off
-node tools/r.js -o tools/build.js
-exit
+node tools/r.js -o tools/build.js&pause
