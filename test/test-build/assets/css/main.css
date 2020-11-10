@@ -1,0 +1,47 @@
+:root {
+    color : #CCC;
+}
+* {
+    color : currentColor;
+    font-size : 16.0px;
+    font-family : monospace;
+}
+.bg-dark {
+    background-image: url(data:image/bmp;base64,Qk06AAAAAAAAADYAAAAoAAAAAQAAAAEAAAABABgAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAISEhAA==);
+}
+.object {
+	color : violet;
+}
+.date {
+	color : teal;
+}
+.boolean {
+	color : coral;
+}
+.number {
+	color : green;
+}
+.string {
+	color : steelblue;
+}
+.undefined {
+	color : violet;
+}
+.error {
+	color : #D50000;
+}
+.syntax-error {
+	color : crimson;	
+}
+.reference-error {
+	color : #C62828;
+}
+.eval-error {
+	color : crimson;
+}
+.range-error {
+	color : red;
+}
+.type-error {
+	color : maroon;
+}
