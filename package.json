@@ -1,6 +1,6 @@
 {
   "amd": {},
   "volo": {
-    "baseUrl": "www/cache"
+    "baseUrl": "www/vendor"
   }
 }

@@ -89,7 +89,8 @@
 
 })({});
 
-const list = new modules.Template([{
+const list = new modules.Template([
+    {
         name: 'Entry 1',
         content: 'Here Document'
     },

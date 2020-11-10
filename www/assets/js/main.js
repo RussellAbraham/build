@@ -1,14 +1,7 @@
-
-define(function () {
+define(function () {    
     
-    function Main(){
-
-    }
-    
-    Main.prototype = {
-        constructor : Main
-    };
+    function Main(){};
 
     return Main;
-
+    
 });

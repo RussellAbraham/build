@@ -18,8 +18,29 @@
         root.$ = $;
     }
 
-    $.VERSION = '1.0.0';
+    $.VERSION = '0.0.1';
     
+    DocumentFragment.prototype.append = function (element) {
+        return this.appendChild(element);
+    }
+    
+    DocumentFragment.prototype.render = function (target) {
+        return target.appendChild(this);
+    }
+    
+    const fragment = new DocumentFragment();
+
+    function extend(obj) {
+		[].slice.call(arguments, 1).forEach(function (source) {
+			for (var prop in source) {
+				if (source[prop] !== void 0) obj[prop] = source[prop];
+			}
+		});
+		return obj;
+	};    
+
+    extend($, fragment);
+
     $.id = document.getElementById.bind(document);
     
     $.qs = function (selector, scope) {
@@ -62,27 +83,36 @@
     };
 
     $.closest = function(selector, element){
-        return selector.closest(element)
+        return $.qs(selector).closest(element);//.qs();
     };
 
-    $.create = function (target, element,options){
+    $.create = function (target, element, options){
+        
         options = (options || {});
+        
         const parent = document.createElement(element);
-        if(options.text){
-            const child = document.createTextNode(options.text);
-            parent.appendChild(child);
-        }
+    
         if(options.class){
             parent.className = options.class;
         }
-        return target.appendChild(myElement);
+
+        if(options.text){
+            parent.appendChild(document.createTextNode(options.text));
+        }
+        else if(options.html){
+            parent.innerHTML = options.html;
+        }
+
+        fragment.appendChild(parent);
+
+        return target.appendChild(fragment);
+
     };
 
     $.append = function (target, element) {
-        return target.appendChild(element);
+        fragment.appendChild(element);
+        return target.appendChild(fragment);
     };
-
-    // TODO : AJAX 
 
     $.prototype.wrapped = function () {
         return this._wrapped;

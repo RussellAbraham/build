@@ -1,14 +1,13 @@
 (function () {
+	
 	var root = this;
+	
 	var _ = function (obj) {
-		if (obj instanceof _) {
-			return obj;
-		}
-		if (!(this instanceof _)) {
-			return new _(obj);
-		}
-		this._wrapped = obj;
-	};
+        if (obj instanceof _) return obj;
+        if (!(this instanceof _)) return new _(obj);
+        this._wrapped = obj;
+    };
+	
 	if (typeof exports !== "undefined") {
 		if (typeof module !== "undefined" && module.exports) {
 			exports = module.exports = _;
@@ -17,7 +16,9 @@
 	} else {
 		root._ = _;
 	}
-	_.VERSION = "1.0.0";
+
+	_.VERSION = "0.0.1";
+
 	var optimizCallback = function (func, context, argCount) {
 		if (context === void 0) return func;
 		switch (argCount == null ? 3 : argCount) {
@@ -68,45 +69,6 @@
 		}
 		return obj;
 	};
-
-	/*	todo :
-	 * 	low level operation of this function should use 
-	 *  - optimizCallback 
-	 *  - callbackGenerator 	
-
-  _.map = _.collect = function(obj, iteratee, context) {
-
-	// callback generator
-    iteratee = cb(iteratee, context);
-	
-	// max length safety for iteratee
-	var keys = !isArrayLike(obj) && _.keys(obj),
-        length = (keys || obj).length,
-		results = Array(length);
-	
-	var index;	
-    for (index = 0; index < length; index++) {
-
-      var currentKey = keys ? keys[index] : index;
-      results[index] = iteratee(obj[currentKey], currentKey, obj);
-	
-	}
-	
-    return results;
-  };
-
-	_.map([$.qsa('.btn', $.id('main'))], function(btns, index){
-		_.each(btns, function(btn, index, btns){
-			if(btn.dataset.action === ''){
-
-			}
-			else if(btn.dataset.action === ''){
-				
-			}
-		});
-	})
-
-	 */
 	_.map = function (object, iterator, context) {
 		var results = [];
 		if (object == null) return results;
@@ -116,7 +78,6 @@
 		});
 		return results;
 	}
-
 	_.has = function (obj, key) {
 		return obj != null && {}.hasOwnProperty.call(obj, key);
 	};
@@ -169,6 +130,9 @@
 	_.isNull = function (obj) {
 		return obj === null;
 	};
+
+	/* isEqual */
+
 	_.now = function () {
 		var now = new Date();
 		var time = /(\d+:\d+:\d+)/.exec(now)[0] + ':';
@@ -177,7 +141,6 @@
 		}
 		return time + ms;
 	}
-
 	function S4() {
 		return ((1 + Math.random()) * 65536 | 0).toString(16).substring(1);
 	}
@@ -223,6 +186,9 @@
 			return _.has(memo, key) ? memo[key] : (memo[key] = callback.apply(this, arguments));
 		};
 	};
+
+	/* mixin */
+
 	_.extend = function (obj) {
 		[].slice.call(arguments, 1).forEach(function (source) {
 			for (var prop in source) {

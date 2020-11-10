@@ -1,27 +1,15 @@
-// For any third party dependencies, place them in the cache folder.
-
-// Configure loading modules from the cache directory,
-// except for 'app' ones, which are in a sibling
-// directory.
+const plugins = {};
 requirejs.config({
-    baseUrl: 'cache',
+    baseUrl: 'vendor',
     paths: {
-        assets : '../assets',        
-        github : 'https://autoraidapi.github.io',
-        debug : 'https://cdpn.io/RJLeyra/debug',
+        assets : '../assets',    
         cdn : 'https://assets.codepen.io/1674766',
         s3 : 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/1674766',
     }
 });
-
-// Start loading the main app file. Put all of
-// your application logic in there.
-requirejs([
-    'assets/js/main'
-], function(Main){
-
+requirejs(['util', 'dom', 'base', 'localforage', 'assets/js/main'], function(_, $, Base, localforage, Main){
+    plugins.localforage = localforage;
     if(typeof window !== 'undefined'){
         window.app = new Main();
     }
-
 });
