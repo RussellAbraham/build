@@ -1,3 +1,17 @@
+This project is a rebuild of Backbone. 
+
+The objective:
+
+- Remove each modules depency on any other module
+- `AMD` compatible
+- `r.js` build tool compatible
+- Provide `CRUD` like grammar with a custom client side storage adapter
+
+Assertion testing with [Qunit](https://qunitjs.com/)
+
+---
+
+Bundling for production :
 
 Project has the following setup:
 
@@ -23,13 +37,3 @@ For more information on using requirejs:
 http://requirejs.org/docs/api.html
 
 
-This project is a rebuild of Backbone. 
-
-The objective:
-
-- Remove each modules depency on any other module
-- `AMD` compatible
-- `r.js` build tool compatible
-- Provide `CRUD` like grammar with a custom client side storage adapter
-
-Assertion testing with [Qunit](https://qunitjs.com/)
