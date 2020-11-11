@@ -1,5 +1,5 @@
 
-This web project has the following setup:
+Project has the following setup:
 
 * www/ - the web assets for the project
     * index.html - the entry point into the app.
@@ -21,3 +21,15 @@ http://requirejs.org/docs/optimization.html
 
 For more information on using requirejs:
 http://requirejs.org/docs/api.html
+
+
+This project is a rebuild of Backbone. 
+
+The objective:
+
+- Remove each modules depency on any other module
+- `AMD` compatible
+- `r.js` build tool compatible
+- Provide `CRUD` like grammar with a custom client side storage adapter
+
+Assertion testing with [Qunit](https://qunitjs.com/)
