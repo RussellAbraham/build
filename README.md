@@ -19,7 +19,7 @@ Project has the following setup:
     * index.html - the entry point into the app.
     * assets.js - the top-level config script used by index.html
     * assets/ - the directory to store project-specific scripts.
-    * scripts/ - the directory to hold dependecy scripts for the framework.
+    * vendor/ - the directory to hold modular scripts for the framework.
 * tools/ - the build tools to optimize the project.
 
 To optimize, run:
@@ -28,7 +28,7 @@ To optimize, run:
 
 That build command creates an optimized version of the project in a
 **www-built** directory. The assets.js file will be optimized to include
-all of its dependencies.
+all of its modules.
 
 For more information on the optimizer:
 http://requirejs.org/docs/optimization.html
