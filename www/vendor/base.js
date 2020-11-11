@@ -67,7 +67,7 @@
 
     extend(Base, Events);
 
-    Base.VERSION = "0.0.1";
+    Base.VERSION = "0.0.2";
     
     const History = (Base.History = function () {
         this.handlers = [];

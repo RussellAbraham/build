@@ -1,1 +1,0 @@
-define([],function(){function t(){}return t.prototype.constructor=t,t.prototype={},t});
