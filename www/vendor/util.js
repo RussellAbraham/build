@@ -1,13 +1,13 @@
 (function () {
-	
+
 	var root = this;
-	
+
 	var _ = function (obj) {
-        if (obj instanceof _) return obj;
-        if (!(this instanceof _)) return new _(obj);
-        this._wrapped = obj;
-    };
-	
+		if (obj instanceof _) return obj;
+		if (!(this instanceof _)) return new _(obj);
+		this._wrapped = obj;
+	};
+
 	if (typeof exports !== "undefined") {
 		if (typeof module !== "undefined" && module.exports) {
 			exports = module.exports = _;
@@ -141,6 +141,7 @@
 		}
 		return time + ms;
 	}
+
 	function S4() {
 		return ((1 + Math.random()) * 65536 | 0).toString(16).substring(1);
 	}

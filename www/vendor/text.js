@@ -8,7 +8,7 @@
   define: false, window: false, process: false, Packages: false,
   java: false, location: false */
 
-  define(['module'], function (module) {
+define(['module'], function (module) {
     'use strict';
 
     var text, fs,
@@ -65,7 +65,7 @@
                     } catch (e) {}
 
                     if (xhr) {
-                        progIds = [progId];  // so faster next time
+                        progIds = [progId]; // so faster next time
                         break;
                     }
                 }
@@ -87,7 +87,7 @@
                 strip = false,
                 index = name.indexOf("."),
                 isRelative = name.indexOf('./') === 0 ||
-                             name.indexOf('../') === 0;
+                name.indexOf('../') === 0;
 
             if (index !== -1 && (!isRelative || index > 1)) {
                 modName = name.substring(0, index);
@@ -140,8 +140,8 @@
             uHostName = uHostName[0];
 
             return (!uProtocol || uProtocol === protocol) &&
-                   (!uHostName || uHostName.toLowerCase() === hostname.toLowerCase()) &&
-                   ((!uPort && !uHostName) || uPort === port);
+                (!uHostName || uHostName.toLowerCase() === hostname.toLowerCase()) &&
+                ((!uPort && !uHostName) || uPort === port);
         },
 
         finishLoad: function (name, strip, content, onLoad) {
@@ -171,10 +171,10 @@
 
             var parsed = text.parseName(name),
                 nonStripName = parsed.moduleName +
-                    (parsed.ext ? '.' + parsed.ext : ''),
+                (parsed.ext ? '.' + parsed.ext : ''),
                 url = req.toUrl(nonStripName),
                 useXhr = (masterConfig.useXhr) ||
-                         text.useXhr;
+                text.useXhr;
 
             //Load the text. Use XHR if possible and in a browser.
             if (!hasLocation || useXhr(url, defaultProtocol, defaultHostName, defaultPort)) {
@@ -192,7 +192,7 @@
                 //!strip part to avoid file system issues.
                 req([nonStripName], function (content) {
                     text.finishLoad(parsed.moduleName + '.' + parsed.ext,
-                                    parsed.strip, content, onLoad);
+                        parsed.strip, content, onLoad);
                 });
             }
         },
@@ -201,9 +201,9 @@
             if (buildMap.hasOwnProperty(moduleName)) {
                 var content = text.jsEscape(buildMap[moduleName]);
                 write.asModule(pluginName + "!" + moduleName,
-                               "define(function () { return '" +
-                                   content +
-                               "';});\n");
+                    "define(function () { return '" +
+                    content +
+                    "';});\n");
             }
         },
 

@@ -1,6 +1,6 @@
 /* DOM Library */
-(function () {    
-    var root = this;    
+(function () {
+    var root = this;
     var $ = function (obj) {
         if (obj instanceof $) return obj;
         if (!(this instanceof $)) return new $(obj);
@@ -14,22 +14,23 @@
     } else {
         root.$ = $;
     }
-    $.VERSION = '0.0.1';    
+    $.VERSION = '0.0.1';
     DocumentFragment.prototype.append = function (element) {
         return this.appendChild(element);
-    }    
+    }
     DocumentFragment.prototype.render = function (target) {
         return target.appendChild(this);
-    }    
+    }
     const fragment = new DocumentFragment();
+
     function extend(obj) {
-		[].slice.call(arguments, 1).forEach(function (source) {
-			for (var prop in source) {
-				if (source[prop] !== void 0) obj[prop] = source[prop];
-			}
-		});
-		return obj;
-	};    
+        [].slice.call(arguments, 1).forEach(function (source) {
+            for (var prop in source) {
+                if (source[prop] !== void 0) obj[prop] = source[prop];
+            }
+        });
+        return obj;
+    };
     extend($, fragment);
     $.id = document.getElementById.bind(document);
     $.qs = function (selector, scope) {
@@ -67,20 +68,19 @@
         return $.parent(element.parentNode, tagName);
     };
 
-    $.closest = function(selector, element){
-        return $.qs(selector).closest(element);//.qs();
+    $.closest = function (selector, element) {
+        return $.qs(selector).closest(element); //.qs();
     };
 
-    $.create = function (target, element, options){
+    $.create = function (target, element, options) {
         options = (options || {});
         const parent = document.createElement(element);
-        if(options.class){
+        if (options.class) {
             parent.className = options.class;
         }
-        if(options.text){
+        if (options.text) {
             parent.appendChild(document.createTextNode(options.text));
-        }
-        else if(options.html){
+        } else if (options.html) {
             parent.innerHTML = options.html;
         }
         fragment.append(parent);
