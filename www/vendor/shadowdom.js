@@ -28,15 +28,15 @@ function Template(array){
     self.array = array;
     self.index = 0;
     
-    var i, len = self.array.length;
+    var i, length = self.array.length;
     
     // reverse loop and clone each
-    for (var i = len - 1; i >= 0; i--) {
+    for (i = length - 1; i >= 0; i--) {
         clone = template.content.cloneNode(true);
     }
 
     // reverse again, reorder and render to object fragment
-    for (var i = len - 1; i >= 0; i--) {
+    for (i = length - 1; i >= 0; i--) {
 
     }
 
