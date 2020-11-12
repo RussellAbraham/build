@@ -149,7 +149,7 @@
 
     extend(Base, Events);
 
-    Base.VERSION = "0.0.2";
+    Base.VERSION = "0.0.3";
 
     const History = (Base.History = function () {
         this.handlers = [];
