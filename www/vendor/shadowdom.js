@@ -28,6 +28,8 @@ function Template(array){
     self.array = array;
     self.index = 0;
     
+    var i, len = self.array.length;
+    
     // reverse loop and clone each
     for (var i = len - 1; i >= 0; i--) {
         clone = template.content.cloneNode(true);
