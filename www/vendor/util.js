@@ -256,9 +256,11 @@
 		template.source = "function(" + (settings.variable || "obj") + "){\n" + source + "}";
 		return template;
 	};
+
 	if (typeof define === "function" && define.amd) {
 		define("util", [], function () {
 			return _;
 		});
 	}
+	
 }.call(this));
