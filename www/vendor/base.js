@@ -1,25 +1,108 @@
-(function () {
+(function (factory) {
+    var root = typeof self == 'object' && self.self === self && self ||
+        typeof global == 'object' && global.global === global && global;
+    if (typeof define === 'function' && define.amd) {
+        define(['exports'], function (exports) {
+            root.Base = factory(root, exports);
+        });
+    } else if (typeof exports !== 'undefined') {
+        factory(root, exports);
+    } else {
+        root.Base = factory(root, {});
+    }
+})(function (root, Base) {
 
-    var root = this,
+    var idCounter = 0,
         _listening;
 
     const eventSplitter = /\s+/;
 
-    const Base = {};
+    function uniqueId(prefix) {
+        var id = idCounter++;
+        return prefix ? prefix + id : id;
+    };
+
+    function Ctor() {};
+
+    function has(obj, key) {
+        return obj != null && {}.hasOwnProperty.call(obj, key);
+    };
+
+    function isObject(obj) {
+        var type = typeof obj;
+        return type === 'function' || type === 'object' && !!obj;
+    };
+
+    function createAssigner(keysFunc, undefinedOnly) {
+        return function (obj) {
+            var length = arguments.length,
+                index, i;
+            if (length < 2 || obj == null) return obj;
+            for (index = 1; index < length; index++) {
+                var source = arguments[index],
+                    keys = keysFunc(source),
+                    l = keys.length;
+                for (i = 0; i < l; i++) {
+                    var key = keys[i];
+                    if (!undefinedOnly || obj[key] === void 0) obj[key] = source[key];
+                }
+            }
+            return obj;
+        };
+    };
+
+    const extendOwn = createAssigner(Object.keys);
+
+    function extend(obj) {
+        [].slice.call(arguments, 1).forEach(function (source) {
+            for (var prop in source) {
+                if (source[prop] !== void 0) obj[prop] = source[prop];
+            }
+        });
+        return obj;
+    };
+
+    function baseCreate(prototype) {
+        if (!isObject(prototype)) return {};
+        if (Object.create) return Object.create(prototype);
+        Ctor.prototype = prototype;
+        var result = new Ctor;
+        Ctor.prototype = null;
+        return result;
+    }
+
+    function create(prototype, props) {
+        var result = baseCreate(prototype);
+        if (props) extendOwn(result, props);
+        return result;
+    }
+
+    function inherits(protoProps, staticProps) {
+        var parent = this;
+        var child;
+        if (protoProps && has(protoProps, 'constructor')) {
+            child = protoProps.constructor;
+        } else {
+            child = function () {
+                return parent.apply(this, arguments);
+            };
+        }
+        extend(child, parent, staticProps);
+        child.prototype = create(parent.prototype, protoProps);
+        child.prototype.constructor = child;
+        child.__super__ = parent.prototype;
+        return child;
+    };
+
+    Base.VERSION = "0.0.3";
+
+    Base.emulateHTTP = false;
+    Base.emulateJSON = false;
 
     const Events = {};
 
     Base.Events = Events;
-
-    function extend(object, props) {
-        for (var prop in props) {
-            if (props[prop]) {
-                object[prop] = props[prop];
-            }
-        }
-        return object;
-    }
-
+    
     function eventsApi(iteratee, events, name, callback, opts) {
         var i = 0,
             names;
@@ -52,6 +135,22 @@
         return this;
     };
 
+    Events.listenTo = function(obj, name, callback){
+        if(!obj) return this;
+        var id = obj._listenId || (obj._listenId = uniqueId('l'));
+        var listeningTo = this._listeningTo || (this._listeningTo = {});
+        var listening = _listening = listeningTo[id];
+        if (!listening) {
+          this._listenId || (this._listenId = uniqueId('l'));
+          listening = _listening = listeningTo[id] = new Listening(this, obj);
+        }    
+        var error = tryCatchOn(obj, name, callback, this);
+        _listening = void 0;
+        if (error) throw error;
+        if (listening.interop) listening.on(name, callback);    
+        return this;        
+    }
+
     function onApi(events, name, callback, options) {
         if (callback) {
             var handlers = events[name] || (events[name] = []);
@@ -67,6 +166,83 @@
             });
         }
         return events;
+    };
+
+    function tryCatchOn(obj, name, callback, context){
+        try { obj.on(name, callback, context); }
+        catch (er) { return er; }
+    };
+
+    Events.off = function (name, callback, context) {
+        if (!this._events) return this;
+        this._events = eventsApi(offApi, this._events, name, callback, {
+            context: context,
+            listeners: this._listeners
+        });
+
+        return this;
+    };
+
+    function offApi(events, name, callback, options) {
+        if (!events) return;
+        var context = options.context,
+            listeners = options.listeners;
+        var i = 0,
+            names;
+        if (!name && !context && !callback) {
+            for (names = Object.keys(listeners); i < names.length; i++) {
+                listeners[names[i]].cleanup();
+            }
+            return;
+        }
+        names = name ? [name] : Object.keys(events);
+        for (; i < names.length; i++) {
+            name = names[i];
+            var handlers = events[name];
+            if (!handlers) break;
+            var remaining = [];
+            for (var j = 0; j < handlers.length; j++) {
+                var handler = handlers[j];
+                if (
+                    callback && callback !== handler.callback &&
+                    callback !== handler.callback._callback ||
+                    context && context !== handler.context
+                ) {
+                    remaining.push(handler);
+                } else {
+                    var listening = handler.listening;
+                    if (listening) listening.off(name, callback);
+                }
+            }
+            if (remaining.length) {
+                events[name] = remaining;
+            } else {
+                delete events[name];
+            }
+        }
+        return events;
+    };
+    
+    Events.once = function(name, callback, context){
+        var events = eventsApi(onceMap, {}, name, callback, this.off.bind(this));
+        if (typeof name === 'string' && context == null) callback = void 0;
+        return this.on(events, callback, context);        
+    };
+    
+    Events.listenToOnce = function(obj, name, callback){
+        var events = eventsApi(onceMap, {}, name, callback, this.stopListening.bind(this, obj));
+        return this.listenTo(obj, events);        
+    };
+
+    function onceMap(map, name, callback, offer){
+        if (callback) {
+            var once = map[name] = once(function () {
+              offer(name, once);
+              callback.apply(this, arguments);
+            });
+            once._callback = callback;
+          }
+          return map;
     };
 
     Events.trigger = function (name) {
@@ -124,6 +300,7 @@
     };
 
     Listening.prototype.on = Events.on;
+
     Listening.prototype.off = function (name, callback) {
         var cleanup;
         if (this.interop) {
@@ -147,9 +324,73 @@
     Events.bind = Events.on;
     Events.unbind = Events.off;
 
-    extend(Base, Events);
+    //extend(Base, Events);
 
-    Base.VERSION = "0.0.3";
+    const Model = (Base.Model = function() {
+        this.preinitialize.apply(this, arguments);
+        this.cid = uniqueId(this.cidPrefix);
+        this.attributes = {};
+        this.changed = {};
+        this.initialize.apply(this, arguments);
+    });
+
+    extend(Model.prototype, Events, {
+        preinitialize: function(){},    
+        initialize: function(){},
+        idAttribute: 'id',
+        cidPrefix: 'c',        
+    });
+
+    const Collection = (Base.Collection = function() {
+        this.preinitialize.apply(this, arguments);
+        this.initialize.apply(this, arguments);
+    });
+    
+    extend(Collection.prototype, Events, {    
+        model: Model,    
+        preinitialize: function(){},    
+        initialize: function(){}    
+    });
+
+    const View = (Base.View = function () {        
+        this.cid = uniqueId('view');        
+        this.preinitialize.apply(this, arguments);        
+        this.initialize.apply(this, arguments);        
+    });
+
+    extend(View.prototype, Events, {
+        preinitialize: function () {},
+        initialize: function () {}
+    });
+
+    Base.sync = function (method) {
+        var type = methodMap[method];
+        // 
+        return type;
+    };
+
+    const methodMap = {
+        create: 'POST',
+        update: 'PUT',
+        patch: 'PATCH',
+        delete: 'DELETE',
+        read: 'GET'
+    };
+
+    Base.ajax = function () {
+
+    };
+
+    const Router = (Base.Router = function (options) {
+        options || (options = {});
+        this.preinitialize.apply(this, arguments);
+        this.initialize.apply(this, arguments);
+    });
+
+    extend(Router.prototype, Base.Events, {
+        preinitialize: function () {},
+        initialize: function () {}
+    });
 
     const History = (Base.History = function () {
         this.handlers = [];
@@ -163,21 +404,12 @@
 
     extend(History.prototype, Base.Events, {
         interval: 50
-    })
+    });
 
     Base.history = new History();
 
-    if (typeof exports !== "undefined") {
-        if (typeof module !== "undefined" && module.exports) {
-            exports = module.exports = Base;
-        }
-        exports.Base = Base;
-    } else {
-        root.Base = Base;
-    }
-    if (typeof define === "function" && define.amd) {
-        define("Base", [], function () {
-            return Base;
-        });
-    }
-}.call(this));
+    Model.extend = Collection.extend = View.extend = Router.extend = History.extend = inherits;
+
+    return Base;
+
+});
