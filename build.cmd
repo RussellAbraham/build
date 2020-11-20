@@ -1,8 +1,10 @@
 @echo off
 
-set /p id="enter path to build to : " %=%
+set /p id="name a new path to build to : " %=%
 
-node tools/r.js -o tools/build.js
+mkdir %id%
+
+node bin/r.js -o bin/build.js
 
 move www-built "%id%"
 

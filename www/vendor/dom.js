@@ -91,49 +91,6 @@
         return fragment.render(target);
     };
 
-    $.ajax = function (options) {
-        options = options || {};
-        var type = options.type || 'GET';
-        var url = options.url;
-        var processData = options.processData === undefined ? true : !!options.processData;
-        var contentType = options.contentType || 'application/x-www-form-urlencoded; charset=UTF-8';
-        var data = options.data;
-        if (processData && typeof data === 'object') {
-            var params = Object.keys(data).map(function (prop) {
-                return encodeURIComponent(prop) + '=' + encodeURIComponent(data[prop]);
-            });
-            data = params.join('&');
-        }
-        if (data && (type === 'GET' || type === 'HEAD')) {
-            url += (url.indexOf('?') === -1 ? '?' : '&') + data;
-            data = undefined;
-        }
-        var xhr = new XMLHttpRequest();
-        xhr.open(type, url, true);
-        xhr.setRequestHeader('Content-Type', contentType);
-        if (options.beforeSend) options.beforeSend(xhr);
-        xhr.onload = function () {
-            var error = false;
-            var content = xhr.responseText;
-            if (options.dataType === 'json') {
-                try {
-                    content = JSON.parse(content);
-                } catch (e) {
-                    error = true
-                }
-            }
-            if (!error && (xhr.status >= 200 && xhr.status < 300)) {
-                if (options.success) options.success(content, xhr.statusText, xhr);
-            } else {
-                if (options.error) options.error(xhr);
-            }
-        }.bind(this);
-        xhr.onerror = xhr.onabort = function () {
-            if (options.error) options.error(xhr);
-        };
-        xhr.send(data);
-        return xhr;
-    };
 
     $.prototype.wrapped = function () {
         return this._wrapped;
