@@ -17,7 +17,7 @@ Project has the following setup:
 
 To optimize, run:
 
-    node tools/r.js -o tools/build.js
+    node bin/r.js -o bin/build.js
 
 That build command creates an optimized version of the project in a
 **www-built** directory. The assets.js file will be optimized to include
