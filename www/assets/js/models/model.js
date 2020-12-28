@@ -38,6 +38,11 @@ define(['backboneLocalforage'], function (Sync) {
             });
         },
 
+        /* todolist application structure to emulate process id's in a table, worker threads being the process 
+            with array buffer response, memory is allocated for a request and referenced to an origin or owner context of that allocated memory
+            with postMessage, the ownership of the allocated buffer is transfered
+        */
+        
         post : function(string){     
             this.request = new XMLHttpRequest();     
             this.request.open('GET', 'data:application/octet-stream, '.concat(string), true);
