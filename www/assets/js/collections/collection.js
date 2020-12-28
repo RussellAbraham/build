@@ -1,5 +1,7 @@
 define(['backboneLocalforage', 'assets/js/models/model'], function (Sync, Model) {
 
+    /* extend base for collections to have an export method */
+    
     var Base = Backbone.Collection.extend({
         setDriver: function () {
             //''.toUpperCase();
@@ -32,6 +34,8 @@ define(['backboneLocalforage', 'assets/js/models/model'], function (Sync, Model)
         }
     });
 
+    /* this organizations github data */
+    
     var Repos = Base.extend({
         initialize: function () {
             this.fetch();
@@ -39,6 +43,8 @@ define(['backboneLocalforage', 'assets/js/models/model'], function (Sync, Model)
         url: "https://api.github.com/users/autoraidapi/repos"
     });
 
+    /* collection for attaching listeners up from its models */
+    
     var Collection = Base.extend({
         model: Model,
         sync: Backbone.localforage.sync('graph-collection'),
