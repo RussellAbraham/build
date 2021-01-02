@@ -1,11 +1,17 @@
-define([
-    'backboneLocalforage',
-    'assets/js/routes/router'
-], function(Sync, Router) {
+define(['assets/js/collection','assets/js/container','assets/js/router'], function(Collection,Container,Router) {
+
     function Main(){
-        this.idx = 0;
-        this.router = new Router();      
+        this.collection = new Collection();
+        this.container = new Container({
+            collection : this.collection
+        });
+        this.router = new Router();
     };
-    Main.prototype = {}
+
+    Main.prototype.valueOf = function(){
+        return this;
+    };
+    
     return Main;
+
 });

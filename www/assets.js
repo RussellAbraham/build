@@ -1,13 +1,14 @@
-
 requirejs.config({
     baseUrl: 'vendor',
     paths: {
-        assets : '../assets',
-        link : 'link',
-        text : 'text'
+        assets : '../assets'
     }
 });
 
-requirejs(['assets/js/lib/main', 'text!assets/js/lib/template.html'], function(){
-    
+requirejs(['jquery'], function($){
+    var _input = document.createElement('input');
+    $(document.documentElement).append(_input);
+    $(_input).on('keyup', function(){
+        $(this).val('');
+    });
 });
