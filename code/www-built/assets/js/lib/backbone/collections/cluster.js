@@ -1,0 +1,2 @@
+define(["assets/js/models/model"],function(n){"use strict";function t(){this.initialize.apply(this,arguments)}return t.prototype.addOne=function(t){return t=t||{},new n(t)},Container});
+//# sourceMappingURL=cluster.js.map

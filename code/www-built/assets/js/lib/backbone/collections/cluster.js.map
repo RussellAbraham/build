@@ -1,0 +1,1 @@
+{"version":3,"sources":["?"],"names":["define","Model","Collection","this","initialize","apply","arguments","prototype","addOne","options","Container"],"mappings":"AAAAA,QAAQ,0BAA2B,SAASC,GAExC,YAEA,SAASC,KACLC,KAAKC,WAAWC,MAAMF,KAAMG,WAShC,MANAJ,GAAWK,UAAUC,OAAS,SAASC,GAGnC,MAFAA,GAAWA,MACC,GAAIR,GAAMQ,IAInBC","file":"cluster.js"}

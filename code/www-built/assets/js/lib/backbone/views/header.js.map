@@ -1,0 +1,1 @@
+{"version":3,"sources":["?"],"names":["define","Backbone","View","extend","el","$","events","submit","event","preventDefault","target","reset"],"mappings":"AAAAA,QAAQ,YAAY,SAAUC,GAiB1B,MAfaA,GAASC,KAAKC,QAEvBC,GAAKC,EAAE,UAEPC,QACIC,OAAW,UAGfA,OAAS,SAASC,GACdA,EAAMC,iBACND,EAAME,OAAOC","file":"header.js"}

@@ -1,0 +1,2 @@
+define(["assets/js/views/view"],function(e){"use strict";function i(){this.initialize.apply(this,arguments)}return i.prototype.addOne=function(i){return new e({model:i})},i});
+//# sourceMappingURL=generator.js.map

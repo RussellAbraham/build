@@ -1,0 +1,1 @@
+{"version":3,"sources":["?"],"names":["define","Router","collection","container","this","preinitialize","apply","arguments","initialize","prototype"],"mappings":"AAAAA,UAAU,WAEN,YAEA,SAASC,GAAOC,EAAYC,GACxBC,KAAKC,cAAcC,MAAMF,KAAMG,WAC/BH,KAAKF,WAAaA,EAClBE,KAAKD,UAAYA,EACjBC,KAAKI,WAAWF,MAAMF,KAAMG,WAOhC,MAJAN,GAAOQ,UAAUJ,cAAgB,aAEjCJ,EAAOQ,UAAUD,WAAa,aAEvBP","file":"index.js"}

@@ -1,0 +1,2 @@
+define(["backbone"],function(e){return e.View.extend({preinitialize:function(){this.channel=new MessageChannel,this.port=this.channel.port1},template:_.template(""),initialize:function(){this.listenTo(this.model,"destroy",this.remove)},render:function(){return this.$el.append(this.template(this.model.toJSON())),this}})});
+//# sourceMappingURL=view.js.map
