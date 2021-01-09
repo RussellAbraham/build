@@ -1,6 +1,6 @@
 {
     "appDir": "../www",
-    "mainConfigFile": "../www/client.js",
+    "mainConfigFile": "../www/assets.js",
     "dir": "../www-built",
     "generateSourceMaps": true,
     // List the modules that will be optimized.

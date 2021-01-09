@@ -1,8 +1,7 @@
 requirejs.config({
-    baseUrl: 'vendor',
+    baseUrl: 'node_modules',
     paths: {
-        assets : '../assets',
-        backbone : 'vendor/backbone/backbone'
+        assets : '../assets'
     }
 });
 

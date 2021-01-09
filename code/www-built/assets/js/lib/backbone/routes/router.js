@@ -1,2 +1,0 @@
-define(["backboneLocalforage","assets/js/collections/collection","assets/js/views/container"],function(e,n,i){return Backbone.Router.extend({preinitialize:function(){this.collection=new n,this.container=new i},routes:{"":""},initialize:function(){Backbone.history.start()}})});
-//# sourceMappingURL=router.js.map

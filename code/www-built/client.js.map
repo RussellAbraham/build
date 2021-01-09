@@ -1,1 +1,0 @@
-{"version":3,"sources":["?"],"names":["requirejs","config","baseUrl","paths","assets","jquery","underscore","backbone","$","_","Backbone"],"mappings":"AAAAA,UAAUC,QACNC,QAAS,SACTC,OACIC,OAAS,YACTC,OAAS,qBACTC,WAAa,wBACbC,SAAW,uBAInBP,WAAW,SAAS,aAAa,YAAY,SAASQ,EAAEC,EAAEC","file":"client.js"}

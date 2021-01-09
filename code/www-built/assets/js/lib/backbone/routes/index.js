@@ -1,2 +1,0 @@
-define([],function(){"use strict";function i(i,t){this.preinitialize.apply(this,arguments),this.collection=i,this.container=t,this.initialize.apply(this,arguments)}return i.prototype.preinitialize=function(){},i.prototype.initialize=function(){},i});
-//# sourceMappingURL=index.js.map
