@@ -1,0 +1,9 @@
+The object added to global scope should contain all methods of global scope without circular references.
+
+This allows serialization of the base layer to be serialized without a more complex algorithm.
+
+global {
+ method : [Function]
+}
+
+↵

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>#iframe{width:100%;}</style>
+</head>
+<body>
+
+    <form id="form">
+        <label for="input">Send</label>
+        <input type="text" id="input" autocomplete="off">
+        <button id="button">Submit</button>
+    </form>
+
+    <hr>
+
+    <iframe id="iframe" src="./port2.html"></iframe>
+
+    <hr>
+
+    <p id="output">...</p>
+
+    <script>
+
+        function View() {
+            this.preinitialize.apply(this, arguments);
+            this.output = document.getElementById('output');
+            this.input = document.getElementById('input');
+            this.iframe = document.getElementById('iframe');
+            this.button = document.getElementById('button');
+            this.form = document.getElementById('form');
+            this.initialize.apply(this,arguments);
+        };
+        
+        View.prototype.preinitialize = function(){
+            this.channel = new MessageChannel();
+            this.port1 = this.channel.port1;
+        };
+
+        View.prototype.initialize = function(){
+            this.port1.onmessage = function (event) {
+                view.output.innerHTML = event.data;
+                view.input.value = '';
+            };
+            this.button.addEventListener('click', function (event) {
+                event.preventDefault();
+                view.port1.postMessage(view.input.value);
+            }, false);
+            this.form.addEventListener("submit", function (event) {
+                event.preventDefault()
+            }, false);
+            this.iframe.addEventListener("load", function (event) {
+                this.contentWindow.postMessage('init', '*', [view.channel.port2]);
+            }, false); 
+        }
+
+        window.view = new View();
+        
+    </script>
+
+</body>
+</html>

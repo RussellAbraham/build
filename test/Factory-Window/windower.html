@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .btn {
+            outline: none;
+            transition: all .5s;
+        }
+
+        [aria-pressed="true"]:before {
+            content: '';
+        }
+
+        .pressed,
+        [aria-pressed="true"] {
+            transition: all .5s;
+        }
+
+        [aria-pressed="true"]:after {
+            transition: all .5s;
+            content: '';
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="btn-pressed" data-target="#" data-toggle="#" aria-pressed="false">☰</button>
+
+    <hr>
+
+    <button onclick="one.open();">open</button>
+    <button onclick="one.close();">close</button>
+    <button onclick="one.write('<p>Hello World!</p><script>console.log(window.opener);<\/script>');">write</button>
+
+
+    <script id="worker">
+        if ('importScripts' in self) {
+            if ('onLine' in navigator) {
+                self.postMessage('online');
+            } else {
+                self.postMessage('offline')
+            }
+            self.addEventListener('message', function (event) {
+                self.postMessage(event.data);
+            }, false);
+        }
+
+    </script>
+
+
+    <script>
+        
+        function Constructor() {
+            this.preinitialize.apply(this, arguments);
+            this.initialize.apply(this, arguments);
+        };
+
+        Constructor.prototype.preinitialize = function () {
+
+        };
+
+        Constructor.prototype.initialize = function () {
+
+        };
+
+        Constructor.prototype.valueOf = function () {
+            return this;
+        };
+
+        function Thread() {
+            var blob = new Blob([document.getElementById('worker').textContent], {
+                type: 'text/javascript'
+            });
+            this.source = URL.createObjectURL(blob);
+            this.worker = new Worker(this.source);
+        };
+
+        Thread.prototype = Object.create(Constructor.prototype, {
+            constructor: {
+                configurable: true,
+                enumerable: true,
+                value: Thread,
+                writeable: true
+            }
+        });
+
+        function Standard(name) {
+            this.name = name;
+        };
+
+        Standard.prototype = Object.create(Constructor.prototype, {
+            constructor: {
+                configurable: true,
+                enumerable: true,
+                value: Standard,
+                writeable: true
+            }
+        });
+
+        Standard.prototype.open = function (focus) {
+            var self = this;
+            if (self.cid) {
+                console.error('');
+            } else {
+                if (focus) {
+                    self.thread = new Thread();
+                    self.cid = window.open('about:blank', self.name, 'width=600,height=400');
+                    self.cid.focus();
+                } else {
+                    self.thread = new Thread();
+                    self.cid = window.open('about:blank', self.name, 'width=600,height=400');
+                }
+            }
+        };
+
+        Standard.prototype.close = function () {
+            var self = this;
+            if (self.cid) {
+                self.thread.worker.terminate();
+                self.cid.close();
+                self.cid = '';
+            }
+        };
+
+        Standard.prototype.write = function (html) {
+            var self = this;
+            self.cid.document.write(html);
+        };
+
+        window.one = new Standard('one');
+
+
+        function looseJsonParse(obj) {
+            return Function('"use strict";return (' + obj + ')')();
+        };
+
+        var Aria = {
+
+            Handler: function (event) {
+                var target = event.target;
+                var pressed = target.getAttribute('aria-pressed');
+                if (!looseJsonParse(pressed)) {
+                    target.setAttribute('aria-pressed', 'true');
+                    target.classList.add('pressed');
+                } else {
+                    target.setAttribute('aria-pressed', 'false');
+                    target.classList.remove('pressed');
+                }
+            }
+
+        };
+
+        (function (btns) {
+            var i, length = btns.length,
+                handler = function (e) {
+                    var target = e.target;
+                    var pressed = target.getAttribute('aria-pressed');
+                    if (!looseJsonParse(pressed)) {
+                        target.setAttribute('aria-pressed', 'true');
+                        target.classList.add('pressed');
+                    } else {
+                        target.setAttribute('aria-pressed', 'false');
+                        target.classList.remove('pressed');
+                    }
+                };
+            for (i = 0; i < length; i++) {
+                btns[i].addEventListener('click', handler, false);
+            }
+        })(document.querySelectorAll('.btn-pressed'));
+    </script>
+
+
+
+</body>
+
+</html>
