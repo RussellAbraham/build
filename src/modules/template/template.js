@@ -1,16 +1,14 @@
 (function () {
-	// head
-	// import { Base }
+    // head
+    // import { Base }
 })(function () {
 
-	_.defaults = function (object) {
+    function defaults(object) {
         if (!object) {
             return object;
         }
         for (
-            var argsIndex = 1, argsLength = arguments.length;
-            argsIndex < argsLength;
-            argsIndex++
+            var argsIndex = 1, argsLength = arguments.length; argsIndex < argsLength; argsIndex++
         ) {
             var iterable = arguments[argsIndex];
             if (iterable) {
@@ -24,7 +22,7 @@
         return object;
     };
 
-    _.templateSettings = {
+    var templateSettings = {
         evaluate: /<%([\s\S]+?)%>/g,
         interpolate: /<%=([\s\S]+?)%>/g,
         escape: /<%-([\s\S]+?)%>/g
@@ -44,9 +42,9 @@
 
     var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
 
-    _.template = function (text, data, settings) {
+    function template(text, data, settings) {
         var render;
-        settings = _.defaults({}, settings, _.templateSettings);
+        settings = defaults({}, settings, _.templateSettings);
         var matcher = new RegExp(
             [
                 (settings.escape || noMatch).source,
@@ -105,18 +103,17 @@
 
         return template;
     };
-  var Template = (Base.Template = function () {
-    this.preinitialize.apply(this, arguments);
-    this.initialize.apply(this, arguments);
-  });
-	
-  extend(Template.prototype, Events, {
-    preinitialize: function () {},
-    initialize: function () {}
-  });
 
-  var templateError = function () {};	
-		
+    var Template = (Base.Template = function () {
+        this.preinitialize.apply(this, arguments);
+        this.initialize.apply(this, arguments);
+    });
+
+    extend(Template.prototype, Events, {
+        preinitialize: function () {},
+        initialize: function () {}
+    });
+
+    var templateError = function () {};
+
 });
-
-
