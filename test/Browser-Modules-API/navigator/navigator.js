@@ -1,63 +1,27 @@
 (function(object){
 	
-	object.keys = {
-		0: "vendorSub",
-		1: "productSub",
-		2: "vendor",
-		3: "maxTouchPoints",
-		4: "hardwareConcurrency",
-		5: "cookieEnabled",
-		6: "appCodeName",
-		7: "appName",
-		8: "appVersion",
-		9: "platform",
-		10: "product",
-		11: "userAgent",
-		12: "language",
-		13: "languages",
-		14: "onLine",
-		15: "userActivation",
-		16: "doNotTrack",
-		17: "geolocation",
-		18: "mediaCapabilities",
-		19: "connection",
-		20: "plugins",
-		21: "mimeTypes",
-		22: "webkitTemporaryStorage",
-		23: "webkitPersistentStorage",
-		24: "getBattery",
-		25: "sendBeacon",
-		26: "getGamepads",
-		27: "javaEnabled",
-		28: "vibrate",
-		29: "mediaSession",
-		30: "permissions",
-		31: "deviceMemory",
-		32: "clipboard",
-		33: "credentials",
-		34: "keyboard",
-		35: "locks",
-		36: "mediaDevices",
-		37: "serviceWorker",
-		38: "storage",
-		39: "presentation",
-		40: "bluetooth",
-		41: "usb",
-		42: "xr",
-		43: "setAppBadge",
-		44: "clearAppBadge",
-		45: "requestMediaKeySystemAccess",
-		46: "getInstalledRelatedApps",
-		47: "getUserMedia",
-		48: "webkitGetUserMedia",
-		49: "registerProtocolHandler",
-		50: "unregisterProtocolHandler",
-		51: "requestMIDIAccess",
-		52: "canShare",
-		53: "share",
-		54: "wakeLock"
-	}
+	function override(){
+		
+		var XNavigator = function() {};
+		
+        XNavigator.prototype = origNavigator;
+		
+		var newNavigator = new XNavigator();
+		
+		if (XNavigator.bind) {
+            for (var key in origNavigator) {
+                if (typeof origNavigator[key] == 'function') {
+                    newNavigator[key] = origNavigator[key].bind(origNavigator);
+                }
+            }
+		}
+		
+		return newNavigator;
 
-	return object;
+	};
+
+	object.override = override;
+
+	return object.override;
 
 })(browser.navigator);
