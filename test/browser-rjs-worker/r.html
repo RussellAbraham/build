@@ -4,17 +4,17 @@
     <style>
         textarea {
             width: 100%;
-            height: 20em;
+            height: 10em;
         }
     </style>
-    <script src="r.js"></script>
+    <script src="https://assets.codepen.io/1674766/r.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function (evt) {
         document.getElementById('build').addEventListener('click', function (evt) {
             requirejs.optimize({
                 baseUrl: '.',
                 paths: {
-                    'd': 'sub/d'
+                    'd': 'd'
                 },
                 include: ['a'],
                 out: function (text) {

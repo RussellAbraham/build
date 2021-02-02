@@ -1,4 +1,4 @@
-importScripts('../../r.js');
+importScripts('https://assets.codepen.io/1674766/r.js');
 
 self.onmessage = function (evt) {
     var out, buildText;
@@ -7,9 +7,9 @@ self.onmessage = function (evt) {
         requirejs.optimize({
             baseUrl: '.',
             paths: {
-                'd': 'sub/d'
+              	'lib': 'lib'
             },
-            include: ['a'],
+            include: ['main'],
             out: function (text) {
                 out = text;
             }
