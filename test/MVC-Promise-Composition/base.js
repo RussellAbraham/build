@@ -1,3 +1,4 @@
+/*base*/
 (function (factory) {
 
 	var root = this;
